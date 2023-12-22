@@ -40,7 +40,7 @@ class UserRepository implements IUserRepository {
 
   @override
   Future<UserModel?> readUser(String uid) async =>
-      await DataBaseService.readUser(uid);
+      await _service.readUser(uid);
 
   @override
   Future<void> updateUser(

@@ -37,7 +37,7 @@ class DoctorRepository implements IDoctorRepository {
 
   @override
   Future<DoctorModel?> readDoctor(String uid) async =>
-      await DoctorService.readUser(uid);
+      await _service.readUser(uid);
 
   @override
   Future<void> updateDoctor(
