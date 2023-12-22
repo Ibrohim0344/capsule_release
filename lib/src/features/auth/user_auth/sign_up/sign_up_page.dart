@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../common/constants/app_colors.dart';
-import '../../../../common/services/database_service.dart';
+import '../../../../common/services/auth_service.dart';
 import '../../../../common/services/storage/storage.dart';
 import '../../../../common/utils/context_utils.dart';
 import '../../../main/main_page.dart';
@@ -18,7 +18,6 @@ class UserSignUp extends StatefulWidget {
 class _UserSignUpState extends State<UserSignUp> {
   late TextEditingController textEditingController;
   late TextEditingController nameEditingController;
-  final auth = DataBaseService();
   FocusNode focusNodePhone = FocusNode();
   FocusNode focusNodeEmail = FocusNode();
   FocusNode focusNodeName = FocusNode();
@@ -66,19 +65,20 @@ class _UserSignUpState extends State<UserSignUp> {
 
   void validate() async {
     if (formKey.currentState!.validate()) {
-      auth.storeUser(
+      final login = await AuthService.registration(
         nameEditingController.text,
         textEditingController.text,
-        textEditingController.text,
       );
-      $currentUser.getUser();
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MainPage(),
-        ),
-        (route) => false,
-      );
+      if (login && mounted) {
+        $currentUser.getUser();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainPage(),
+          ),
+          (route) => false,
+        );
+      }
     }
   }
 
