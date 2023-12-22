@@ -8,7 +8,7 @@ import '../../../../common/services/storage/storage.dart';
 import '../widgets/custom_button.dart';
 import 'edit_page.dart';
 
-mixin EditPageMixin on State<EditPage>{
+mixin EditPageMixin on State<EditPage> {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController birthdayController = TextEditingController();
@@ -47,6 +47,10 @@ mixin EditPageMixin on State<EditPage>{
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
     birthdayController = TextEditingController();
+    firstNameController.text = $currentUser.currentUser!.name;
+    lastNameController.text = $currentUser.currentUser!.lastName;
+    birthdayController.text =
+        $currentUser.currentUser!.dateOfBirth.toIso8601String();
     super.initState();
   }
 
@@ -58,14 +62,14 @@ mixin EditPageMixin on State<EditPage>{
     birthdayController.dispose();
   }
 
-  void dialog(){
+  void dialog() {
     {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 50.0, vertical: 250),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 50.0, vertical: 250),
             child: Card(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -74,8 +78,7 @@ mixin EditPageMixin on State<EditPage>{
                     child: CupertinoDatePicker(
                       onDateTimeChanged: (DateTime newDate) {
                         setState(() {
-                          $currentUser.currentUser!.dateOfBirth =
-                              newDate;
+                          $currentUser.currentUser!.dateOfBirth = newDate;
                         });
                       },
                       mode: CupertinoDatePickerMode.date,
@@ -87,7 +90,7 @@ mixin EditPageMixin on State<EditPage>{
                       CustomButton(
                         onPressed: () {
                           birthdayController.text =
-                          "${$currentUser.currentUser!.dateOfBirth}";
+                              "${$currentUser.currentUser!.dateOfBirth}";
                           Navigator.pop(context);
                         },
                         text: "Ok",

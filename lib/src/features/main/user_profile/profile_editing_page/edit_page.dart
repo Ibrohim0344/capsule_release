@@ -17,7 +17,6 @@ class EditPage extends StatefulWidget {
 }
 
 class _EditPageState extends State<EditPage> with EditPageMixin {
-
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.sizeOf(context);
@@ -42,11 +41,10 @@ class _EditPageState extends State<EditPage> with EditPageMixin {
                     updatedUser,
                     $currentUser.currentUser!.id,
                   );
+                  $currentUser.getUser();
                   Navigator.pop(context);
                 },
-                child: const Icon(
-                  Icons.done,
-                ),
+                child: const Icon(Icons.done),
               ),
             ),
           ],
@@ -63,7 +61,7 @@ class _EditPageState extends State<EditPage> with EditPageMixin {
                   Center(
                     child: CircleAvatar(
                       radius: size.width * 0.15,
-                         //backgroundImage: _image!=null?FileImage(_image): AssetImage("assets/images/user.png"),
+                      //backgroundImage: _image!=null?FileImage(_image): AssetImage("assets/images/user.png"),
                     ),
                   ),
                   Align(
@@ -167,19 +165,18 @@ class _EditPageState extends State<EditPage> with EditPageMixin {
                 height: 20,
               ),
               CustomTextField(
-                controller: birthdayController,
-                keyboardType: TextInputType.number,
-                textInputAction: TextInputAction.done,
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.all(13.0),
-                  child: SvgPicture.asset(
-                    AppIcons.birthday,
+                  controller: birthdayController,
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.done,
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.all(13.0),
+                    child: SvgPicture.asset(
+                      AppIcons.birthday,
+                    ),
                   ),
-                ),
-                hintText: "Your Birthday",
-                readOnly: true,
-                onTap: dialog
-              ),
+                  hintText: "Your Birthday",
+                  readOnly: true,
+                  onTap: dialog),
               const SizedBox(
                 height: 20,
               ),

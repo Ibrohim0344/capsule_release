@@ -110,8 +110,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.only(bottom: 5),
               child: Text(
-                // "${$currentUser.currentUser!.name} ${$currentUser.currentUser!.lastName}",
-                "Hello",
+                "${$currentUser.currentUser!.name} ${$currentUser.currentUser!.lastName}",
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),

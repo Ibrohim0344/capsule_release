@@ -6,7 +6,7 @@ import '../data/repository/user_repository.dart';
 import '../models/user_model.dart';
 import '../services/storage/storage.dart';
 
-class CurrentUser with ChangeNotifier {
+class CurrentUser extends ChangeNotifier {
   UserModel? currentUser;
 
   void getUser() async {
