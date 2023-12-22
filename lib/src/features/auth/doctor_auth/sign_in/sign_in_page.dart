@@ -3,9 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../common/constants/app_colors.dart';
 import '../../../../common/data/repository/doctor_repository.dart';
-import '../../../../common/models/doctor_model.dart';
-import '../../../../common/services/sms_service.dart';
+import '../../../../common/services/doctor_service.dart';
+import '../../../../common/services/storage/storage.dart';
 import '../../../../common/utils/context_utils.dart';
+import '../../../main/main_page.dart';
 import '../sign_up/sign_up_page.dart';
 
 class DoctorSignIn extends StatefulWidget {
@@ -18,11 +19,10 @@ class DoctorSignIn extends StatefulWidget {
 class _DoctorSignInState extends State<DoctorSignIn> {
   late TextEditingController textEditingController;
   late TextEditingController passwordEditingController;
-  final smsCode = SmsService();
+  final auth = DoctorService();
   FocusNode focusNodePhone = FocusNode();
   FocusNode focusNodePassword = FocusNode();
   late IDoctorRepository repository;
-  DoctorModel? currentDoctor;
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -45,9 +45,6 @@ class _DoctorSignInState extends State<DoctorSignIn> {
   void onTap() {
     focusNodePassword.unfocus();
     focusNodePhone.requestFocus();
-    // if (!textEditingController.text.startsWith("+998")) {
-    //   textEditingController.text = "+998 ${textEditingController.text}";
-    // }
   }
 
   String? validatePhone(String? value) {
@@ -72,8 +69,15 @@ class _DoctorSignInState extends State<DoctorSignIn> {
 
   void validate() async {
     if (formKey.currentState!.validate()) {
-      smsCode.phoneAuthDoctor(
-          textEditingController.text, context, "doctor", "", "");
+      auth.readUser(textEditingController.text);
+      $currentUser.getUser();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MainPage(),
+        ),
+        (route) => false,
+      );
     }
   }
 

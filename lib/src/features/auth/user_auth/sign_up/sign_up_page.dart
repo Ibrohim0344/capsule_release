@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../common/constants/app_colors.dart';
-import '../../../../common/services/sms_service.dart';
+import '../../../../common/services/database_service.dart';
+import '../../../../common/services/storage/storage.dart';
 import '../../../../common/utils/context_utils.dart';
+import '../../../main/main_page.dart';
 import '../../doctor_auth/sign_in/sign_in_page.dart';
 import '../sign_in/sign_in_page.dart';
 
@@ -16,7 +18,7 @@ class UserSignUp extends StatefulWidget {
 class _UserSignUpState extends State<UserSignUp> {
   late TextEditingController textEditingController;
   late TextEditingController nameEditingController;
-  final smsCode = SmsService();
+  final auth = DataBaseService();
   FocusNode focusNodePhone = FocusNode();
   FocusNode focusNodeEmail = FocusNode();
   FocusNode focusNodeName = FocusNode();
@@ -43,9 +45,6 @@ class _UserSignUpState extends State<UserSignUp> {
     focusNodeEmail.unfocus();
     focusNodeName.unfocus();
     focusNodePhone.requestFocus();
-    // if (!textEditingController.text.startsWith("+998")) {
-    //   textEditingController.text = "+998 ${textEditingController.text}";
-    // }
   }
 
   String? validateName(String? value) {
@@ -67,10 +66,18 @@ class _UserSignUpState extends State<UserSignUp> {
 
   void validate() async {
     if (formKey.currentState!.validate()) {
-      smsCode.phoneAuthUser(
-        "+998 ${textEditingController.text}",
-        context,
+      auth.storeUser(
         nameEditingController.text,
+        textEditingController.text,
+        textEditingController.text,
+      );
+      $currentUser.getUser();
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const MainPage(),
+        ),
+        (route) => false,
       );
     }
   }
@@ -303,16 +310,14 @@ class _UserSignUpState extends State<UserSignUp> {
                         text: TextSpan(
                           style: const TextStyle(color: AppColors.askAcc),
                           children: [
-                            const TextSpan(
-                                text: "Already have an account?  "),
+                            const TextSpan(text: "Already have an account?  "),
                             WidgetSpan(
                               child: InkWell(
                                 onTap: () {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          const UserSignIn(),
+                                      builder: (context) => const UserSignIn(),
                                     ),
                                   );
                                 },

@@ -1,12 +1,8 @@
-import 'dart:convert';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/auth/send_code.dart';
-import 'database_service.dart';
-import 'doctor_service.dart';
-import 'storage/storage.dart';
 
 class SmsService {
   final auth = FirebaseAuth.instance;
@@ -22,11 +18,11 @@ class SmsService {
         final credential = await auth.signInWithCredential(phoneAuthCredential);
         if (credential.user != null && name != "") {
           await credential.user!.updateDisplayName(name);
-          await DataBaseService.storeUser(name, phone, phone);
+          // await DataBaseService.storeUser(name, phone, phone);
         } else if (credential.user != null && name == "") {
-          final user = await DataBaseService.readUser(phone);
-          await $secureStorage.write(
-              key: StorageKeys.user.key, value: jsonEncode(user));
+          // final user = await DataBaseService.readUser(phone);
+          // await $secureStorage.write(
+          //     key: StorageKeys.user.key, value: jsonEncode(user));
         }
       },
       verificationFailed: (error) {
@@ -67,11 +63,11 @@ class SmsService {
         final credential = await auth.signInWithCredential(phoneAuthCredential);
         if (credential.user != null && name != "doctor") {
           await credential.user!.updateDisplayName(name);
-          await DoctorService.storeUser(name, phone, phone, password, token);
+          // await DoctorService.storeUser(name, phone, phone, password, token);
         } else if (credential.user != null && name == "doctor") {
-          final doctor = await DoctorService.readUser(phone);
-          await $secureStorage.write(
-              key: StorageKeys.user.key, value: jsonEncode(doctor));
+          // final doctor = await DoctorService.readUser(phone);
+          // await $secureStorage.write(
+          //     key: StorageKeys.user.key, value: jsonEncode(doctor));
         }
       },
       verificationFailed: (error) {

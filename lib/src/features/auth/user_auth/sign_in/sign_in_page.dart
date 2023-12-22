@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../common/constants/app_colors.dart';
-import '../../../../common/services/sms_service.dart';
+import '../../../../common/services/database_service.dart';
+import '../../../../common/services/storage/storage.dart';
 import '../../../../common/utils/context_utils.dart';
+import '../../../main/main_page.dart';
 import '../../doctor_auth/sign_in/sign_in_page.dart';
 import '../sign_up/sign_up_page.dart';
 
@@ -16,7 +18,7 @@ class UserSignIn extends StatefulWidget {
 
 class _UserSignInState extends State<UserSignIn> {
   late TextEditingController textEditingController;
-  final smsCode = SmsService();
+  final auth=DataBaseService();
   FocusNode focusNodePhone = FocusNode();
   final formKey = GlobalKey<FormState>();
 
@@ -35,9 +37,6 @@ class _UserSignInState extends State<UserSignIn> {
 
   void onTap() {
     focusNodePhone.requestFocus();
-    // if (!textEditingController.text.startsWith("+998")) {
-    //   textEditingController.text = "+998 ${textEditingController.text}";
-    // }
   }
 
   String? validatePhone(String? value) {
@@ -52,10 +51,14 @@ class _UserSignInState extends State<UserSignIn> {
 
   void validate() async {
     if (formKey.currentState!.validate()) {
-      smsCode.phoneAuthUser(
-        textEditingController.text,
+      auth.readUser(textEditingController.text);
+      $currentUser.getUser();
+      Navigator.pushAndRemoveUntil(
         context,
-        "",
+        MaterialPageRoute(
+          builder: (context) => const MainPage(),
+        ),
+            (route) => false,
       );
     }
   }

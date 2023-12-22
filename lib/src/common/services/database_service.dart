@@ -46,7 +46,7 @@ class DataBaseService {
     return db.ref(Folder.user).child(uid).update(userModel.toJson());
   }
 
-  static Future<bool> storeUser(
+  Future<bool> storeUser(
       String name,
       String phoneNumber,
       String uid,
@@ -72,11 +72,13 @@ class DataBaseService {
     }
   }
 
-  static Future<UserModel?> readUser(String uid) async {
+  Future<UserModel?> readUser(String uid) async {
     try {
       final data = await db.ref(Folder.user).child(uid).get();
       final member = UserModel.fromJson(
           jsonDecode(jsonEncode(data.value)) as Map<String, dynamic>);
+      await $secureStorage.write(
+          key: StorageKeys.user.key, value: jsonEncode(member));
       return member;
     } catch (e) {
       debugPrint("DB ERROR: $e");
