@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../common/constants/app_colors.dart';
 import '../../common/constants/app_images.dart';
+import '../../common/services/auth_service.dart';
 import '../../common/services/storage/storage.dart';
 import '../../common/utils/context_utils.dart';
 import '../main/main_page.dart';
@@ -16,7 +17,7 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   void getCurrentUser(){
-    if($currentUser.currentUser != null){
+    if(AuthService.user != null){
       $currentUser.getUser();
     }
   }
@@ -28,7 +29,7 @@ class _SplashPageState extends State<SplashPage> {
       return Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => $currentUser.currentUser != null
+          builder: (context) => AuthService.user != null
               ? const MainPage()
               : const SplashCorusel(),
         ),

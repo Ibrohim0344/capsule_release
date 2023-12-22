@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../common/constants/app_colors.dart';
-import '../../../../common/services/database_service.dart';
+import '../../../../common/services/auth_service.dart';
 import '../../../../common/services/storage/storage.dart';
 import '../../../../common/utils/context_utils.dart';
 import '../../../main/main_page.dart';
@@ -18,7 +18,6 @@ class UserSignIn extends StatefulWidget {
 
 class _UserSignInState extends State<UserSignIn> {
   late TextEditingController textEditingController;
-  final auth=DataBaseService();
   FocusNode focusNodePhone = FocusNode();
   final formKey = GlobalKey<FormState>();
 
@@ -51,15 +50,17 @@ class _UserSignInState extends State<UserSignIn> {
 
   void validate() async {
     if (formKey.currentState!.validate()) {
-      auth.readUser(textEditingController.text);
-      $currentUser.getUser();
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MainPage(),
-        ),
-            (route) => false,
-      );
+      final login=await AuthService.login(textEditingController.text);
+      if(login && mounted){
+        $currentUser.getUser();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainPage(),
+          ),
+          (route) => false,
+        );
+      }
     }
   }
 
