@@ -21,6 +21,8 @@ class CurrentUser extends ChangeNotifier {
     $secureStorage.write(
         key: StorageKeys.user.key, value: jsonEncode(currentUser));
     currentUser = userModel;
+    print("--------------------------------");
+    print(currentUser);
     notifyListeners();
   }
 
