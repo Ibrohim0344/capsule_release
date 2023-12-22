@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../common/constants/app_colors.dart';
 import '../../common/constants/app_images.dart';
-import '../../common/controller/user_controller.dart';
 import '../../common/services/storage/storage.dart';
 import '../../common/utils/context_utils.dart';
 import '../main/main_page.dart';
@@ -18,8 +16,6 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   void getCurrentUser(){
-    $secureStorage = const FlutterSecureStorage();
-    $currentUser=CurrentUser();
     if($currentUser.currentUser != null){
       $currentUser.getUser();
     }
