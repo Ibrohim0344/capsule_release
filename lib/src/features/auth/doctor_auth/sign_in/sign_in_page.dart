@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../common/constants/app_colors.dart';
 import '../../../../common/data/repository/doctor_repository.dart';
-import '../../../../common/services/doctor_service.dart';
+import '../../../../common/services/doctor_auth_service.dart';
 import '../../../../common/services/storage/storage.dart';
 import '../../../../common/utils/context_utils.dart';
 import '../../../main/main_page.dart';
@@ -19,7 +19,6 @@ class DoctorSignIn extends StatefulWidget {
 class _DoctorSignInState extends State<DoctorSignIn> {
   late TextEditingController textEditingController;
   late TextEditingController passwordEditingController;
-  final auth = DoctorService();
   FocusNode focusNodePhone = FocusNode();
   FocusNode focusNodePassword = FocusNode();
   late IDoctorRepository repository;
@@ -69,15 +68,17 @@ class _DoctorSignInState extends State<DoctorSignIn> {
 
   void validate() async {
     if (formKey.currentState!.validate()) {
-      auth.readUser(textEditingController.text);
-      $currentUser.getUser();
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MainPage(),
-        ),
-        (route) => false,
-      );
+      final login=await DoctorAuthService.login(textEditingController.text);
+      if(mounted && login){
+        $currentUser.getUser();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainPage(),
+          ),
+          (route) => false,
+        );
+      }
     }
   }
 
