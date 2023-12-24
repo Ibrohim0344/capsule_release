@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../common/constants/app_colors.dart';
 import '../../../../common/utils/custom_shadow.dart';
+import '../chat_screen/chat_screen.dart';
 import '../model/doctor_appointment_model.dart';
 import '../model/doctor_card.dart';
 import 'expandable_text.dart';
@@ -266,7 +267,9 @@ class Details extends StatelessWidget {
                 onPressed: appointment.status == "Cancelled" ||
                         appointment.status == "Completed"
                     ? null
-                    : () {},
+                    : () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatScreen(),));
+                },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
                   child: Row(

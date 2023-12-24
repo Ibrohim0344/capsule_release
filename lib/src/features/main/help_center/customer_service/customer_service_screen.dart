@@ -43,6 +43,27 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
     super.initState();
   }
 
+  Future<void> sendMessage() async {
+    final message = MessageModel(
+      userId: $currentUser.currentUser!.id,
+      message: textEditingController.text.trim(),
+      usersId: $currentUser.currentUser!.id,
+    );
+    if (textEditingController.text.isNotEmpty) {
+      repository.createMessage(message);
+
+      // notificationRepository.postNotification(
+      //   message: textEditingController.text.trim(),
+      //   token: ,
+      //   name: AuthService.auth.currentUser!.displayName!,
+      //  );
+    }
+    textEditingController.text = "";
+    setState(() {
+      isTexting = false;
+    });
+  }
+
   Future<void> deletePost(String id) async {
     await repository.deleteMessage(id);
 
@@ -115,53 +136,55 @@ class _CustomerServiceScreenState extends State<CustomerServiceScreen> {
             bottom: 10,
             left: 12,
             right: 6,
-            child: SizedBox(
-              width: size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: size.width * 0.75,
-                    child: CustomTextField(
-                      onChanged: (text) {
-                        setState(() {
-                          textEditingController.text.isNotEmpty
-                              ? isTexting = true
-                              : isTexting = false;
-                        });
-                      },
-                      textEditingController: textEditingController,
-                      check: isTexting,
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: SizedBox(
+                width: size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: size.width * 0.75,
+                      child: CustomTextField(
+                        onChanged: (text) {
+                          setState(() {
+                            textEditingController.text.isNotEmpty
+                                ? isTexting = true
+                                : isTexting = false;
+                          });
+                        },
+                        textEditingController: textEditingController,
+                        check: isTexting,
+                      ),
                     ),
-                  ),
-
-                  IconButton(
-                    iconSize: 56,
-                    onPressed: () {},
-                    icon: isTexting
-                        ? Image(
-                            width: 56,
-                            height: 56,
-                            image: const AssetImage(
-                              "assets/icons/ic_send_message.png",
-                            ),
-                            color: !isTexting
-                                ? AppColors.greyScale
-                                : AppColors.blue,
-                          )
-                        : CircleAvatar(
-                            minRadius: 25,
-                            backgroundColor: AppColors.blue,
-                            child: Center(
-                              child: SvgPicture.asset(
-                                AppIcons.icVoice,
-                                width: 20,
-                                height: 20,
-                              ),
-                            ),
+                    IconButton(
+                      iconSize: 56,
+                      onPressed: sendMessage,
+                      icon: isTexting
+                          ? Image(
+                        width: 56,
+                        height: 56,
+                        image: const AssetImage(
+                          "assets/icons/ic_send_message.png",
+                        ),
+                        color: !isTexting
+                            ? AppColors.greyScale
+                            : AppColors.blue,
+                      )
+                          : CircleAvatar(
+                        minRadius: 25,
+                        backgroundColor: AppColors.blue,
+                        child: Center(
+                          child: SvgPicture.asset(
+                            AppIcons.icVoice,
+                            width: 20,
+                            height: 20,
                           ),
-                  ),
-                ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
