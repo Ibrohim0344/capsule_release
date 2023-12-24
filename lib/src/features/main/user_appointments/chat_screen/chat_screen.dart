@@ -17,10 +17,7 @@ import 'widgets/chat_screen_app_bar.dart';
 //             "-V5NcIy7-O93Aszkx1r62rIzHhJZSl_Sdl-j6b3UCMX0FjhP",
 
 class ChatScreen extends StatefulWidget {
-  final String id;
-
   const ChatScreen({
-    required this.id,
     super.key,
   });
 
@@ -37,7 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   void initState() {
-    repository = MessageRepository(widget.id);
+    repository = MessageRepository($currentUser.currentUser!.id);
     notificationRepository = NotificationRepository();
     textEditingController = TextEditingController();
     super.initState();
@@ -47,7 +44,7 @@ class _ChatScreenState extends State<ChatScreen> {
     final message = MessageModel(
       userId: $currentUser.currentUser!.id,
       message: textEditingController.text.trim(),
-      usersId: widget.id,
+      usersId: $currentUser.currentUser!.id,
     );
     if (textEditingController.text.isNotEmpty) {
       repository.createMessage(message);
@@ -64,33 +61,33 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  void editPost(MessageModel message) async {
-    final editMessage = MessageModel(
-      userId: message.userId,
-      usersId: widget.id,
-      message: textEditingController.text == ""
-          ? message.message
-          : textEditingController.text,
-      id: message.id,
-      edited: true,
-    );
+  // void editPost(MessageModel message) async {
+  //   final editMessage = MessageModel(
+  //     userId: message.userId,
+  //     usersId: $currentUser.currentUser!.id,
+  //     message: textEditingController.text == ""
+  //         ? message.message
+  //         : textEditingController.text,
+  //     id: message.id,
+  //     edited: true,
+  //   );
+  //
+  //   await repository.updateMessage(editMessage);
+  //
+  //   if (context.mounted) {
+  //     Navigator.pop(context);
+  //   }
+  //
+  //   textEditingController.text = "";
+  // }
 
-    await repository.updateMessage(editMessage);
-
-    if (context.mounted) {
-      Navigator.pop(context);
-    }
-
-    textEditingController.text = "";
-  }
-
-  Future<void> deletePost(String id) async {
-    await repository.deleteMessage(id);
-
-    if (context.mounted) {
-      Navigator.pop<bool>(context, true);
-    }
-  }
+  // Future<void> deletePost(String id) async {
+  //   await repository.deleteMessage(id);
+  //
+  //   if (context.mounted) {
+  //     Navigator.pop<bool>(context, true);
+  //   }
+  // }
 
   /// AppBar Function
   void backTap() {
@@ -101,7 +98,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isTexting = false;
     final size = MediaQuery.sizeOf(context);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -153,138 +149,80 @@ class _ChatScreenState extends State<ChatScreen> {
                                 post.userId != $currentUser.currentUser!.id
                                     ? Alignment.bottomLeft
                                     : Alignment.bottomRight,
-                            child: GestureDetector(
-                              onLongPress: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (context) {
-                                    return SizedBox(
-                                      width: double.infinity,
-                                      height: 100,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          post.userId ==
-                                              $currentUser.currentUser!.id
-                                              ? Row(
-                                                  children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                        bottom: MediaQuery.of(
-                                                                    context)
-                                                                .viewInsets
-                                                                .bottom +
-                                                            10,
-                                                        top: 10,
-                                                        right: 10,
-                                                        left: 10,
-                                                      ),
-                                                      child: CustomTextField(
-                                                        onChanged: (text) {
-                                                          setState(() {
-                                                            textEditingController
-                                                                    .text
-                                                                    .isNotEmpty
-                                                                ? isTexting =
-                                                                    true
-                                                                : isTexting =
-                                                                    false;
-                                                          });
-                                                        },
-                                                        textEditingController:
-                                                            textEditingController,
-                                                        check: isTexting,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              : const SizedBox.shrink(),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: const Radius.circular(15),
-                                    bottomLeft: post.userId !=
-                                        $currentUser.currentUser!.id
-                                        ? const Radius.circular(0)
-                                        : const Radius.circular(15),
-                                    topRight: const Radius.circular(15),
-                                    bottomRight: post.userId !=
-                                        $currentUser.currentUser!.id
-                                        ? const Radius.circular(15)
-                                        : const Radius.circular(0),
-                                  ),
-                                  border: Border.all(
-                                    color: post.userId !=
-                                        $currentUser.currentUser!.id
-                                        ? Colors.black
-                                        : const Color(0xFF21C004),
-                                    width: 0.2,
-                                  ),
-                                  color: post.userId !=
-                                      $currentUser.currentUser!.id
-                                      ? const Color(0xFFF5F5F5)
-                                      : const Color(0xFFE1FEC6),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: const Radius.circular(15),
+                                  bottomLeft: post.userId !=
+                                          $currentUser.currentUser!.id
+                                      ? const Radius.circular(0)
+                                      : const Radius.circular(15),
+                                  topRight: const Radius.circular(15),
+                                  bottomRight: post.userId !=
+                                          $currentUser.currentUser!.id
+                                      ? const Radius.circular(15)
+                                      : const Radius.circular(0),
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8),
-                                  child: Column(
-                                    crossAxisAlignment: post.userId !=
-                                        $currentUser.currentUser!.id
-                                        ? CrossAxisAlignment.start
-                                        : CrossAxisAlignment.end,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text(
-                                        post.message ?? "",
-                                        style: TextStyle(
-                                          color: post.userId !=
-                                              $currentUser.currentUser!.id
-                                              ? Colors.black
-                                              : Colors.black,
-                                          fontSize: 17,
+                                border: Border.all(
+                                  color: post.userId !=
+                                          $currentUser.currentUser!.id
+                                      ? Colors.black
+                                      : const Color(0xFF21C004),
+                                  width: 0.2,
+                                ),
+                                color:
+                                    post.userId != $currentUser.currentUser!.id
+                                        ? const Color(0xFFF5F5F5)
+                                        : const Color(0xFFE1FEC6),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Column(
+                                  crossAxisAlignment: post.userId !=
+                                          $currentUser.currentUser!.id
+                                      ? CrossAxisAlignment.start
+                                      : CrossAxisAlignment.end,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      post.message ?? "",
+                                      style: TextStyle(
+                                        color: post.userId !=
+                                                $currentUser.currentUser!.id
+                                            ? Colors.black
+                                            : Colors.black,
+                                        fontSize: 17,
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          post.edited! ? "edited" : "",
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: post.userId !=
+                                                    $currentUser.currentUser!.id
+                                                ? Colors.black
+                                                : const Color(0xFF2DA430),
+                                            fontSize: 10,
+                                          ),
                                         ),
-                                      ),
-                                      Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            post.edited! ? "edited" : "",
-                                            textAlign: TextAlign.end,
-                                            style: TextStyle(
-                                              color: post.userId !=
-                                                  $currentUser.currentUser!.id
-                                                  ? Colors.black
-                                                  : const Color(0xFF2DA430),
-                                              fontSize: 10,
-                                            ),
+                                        Text(
+                                          " ${"${post.createAt.hour}".padLeft(2, "0")}:${"${post.createAt.minute}".padLeft(2, "0")}",
+                                          textAlign: TextAlign.end,
+                                          style: TextStyle(
+                                            color: post.userId !=
+                                                    $currentUser.currentUser!.id
+                                                ? Colors.black
+                                                : const Color(0xFF2DA430),
+                                            fontSize: 10,
                                           ),
-                                          Text(
-                                            " ${"${post.createAt.hour}".padLeft(2, "0")}:${"${post.createAt.minute}".padLeft(2, "0")}",
-                                            textAlign: TextAlign.end,
-                                            style: TextStyle(
-                                              color: post.userId !=
-                                                  $currentUser.currentUser!.id
-                                                  ? Colors.black
-                                                  : const Color(0xFF2DA430),
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -296,30 +234,59 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
           ),
           Positioned(
-            bottom: 0,
-            child: IconButton(
-              iconSize: 56,
-              onPressed: () {},
-              icon: isTexting
-                  ? Image(
-                      width: 56,
-                      height: 56,
-                      image: const AssetImage(
-                        "assets/icons/ic_send_message.png",
-                      ),
-                      color: !isTexting ? AppColors.greyScale : AppColors.blue,
-                    )
-                  : CircleAvatar(
-                      minRadius: 25,
-                      backgroundColor: AppColors.blue,
-                      child: Center(
-                        child: SvgPicture.asset(
-                          AppIcons.icVoice,
-                          width: 20,
-                          height: 20,
-                        ),
+            bottom: 10,
+            left: 12,
+            right: 6,
+            child: Padding(
+              padding: const EdgeInsets.all(5),
+              child: SizedBox(
+                width: size.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: size.width * 0.75,
+                      child: CustomTextField(
+                        onChanged: (text) {
+                          setState(() {
+                            textEditingController.text.isNotEmpty
+                                ? isTexting = true
+                                : isTexting = false;
+                          });
+                        },
+                        textEditingController: textEditingController,
+                        check: isTexting,
                       ),
                     ),
+                    IconButton(
+                      iconSize: 56,
+                      onPressed: sendMessage,
+                      icon: isTexting
+                          ? Image(
+                              width: 56,
+                              height: 56,
+                              image: const AssetImage(
+                                "assets/icons/ic_send_message.png",
+                              ),
+                              color: !isTexting
+                                  ? AppColors.greyScale
+                                  : AppColors.blue,
+                            )
+                          : CircleAvatar(
+                              minRadius: 25,
+                              backgroundColor: AppColors.blue,
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  AppIcons.icVoice,
+                                  width: 20,
+                                  height: 20,
+                                ),
+                              ),
+                            ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ],

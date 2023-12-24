@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../common/constants/app_colors.dart';
-import '../../../../common/services/doctor_service.dart';
+import '../../../../common/services/doctor_auth_service.dart';
 import '../../../../common/services/storage/storage.dart';
 import '../../../../common/utils/context_utils.dart';
 import '../../../main/main_page.dart';
@@ -20,7 +20,6 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
   late TextEditingController tokenEditingController;
   late TextEditingController nameEditingController;
   late TextEditingController passwordEditingController;
-  final auth = DoctorService();
   FocusNode focusNodePhone = FocusNode();
   FocusNode focusNodeName = FocusNode();
   FocusNode focusNodePassword = FocusNode();
@@ -92,21 +91,22 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
 
   void validate() async {
     if (formKey.currentState!.validate()) {
-      auth.storeUser(
+      final login = await DoctorAuthService.registration(
         nameEditingController.text,
-        textEditingController.text,
         textEditingController.text,
         passwordEditingController.text,
         tokenEditingController.text,
       );
-      $currentUser.getUser();
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MainPage(),
-        ),
-            (route) => false,
-      );
+      if (mounted && login) {
+        $currentUser.getUser();
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MainPage(),
+          ),
+          (route) => false,
+        );
+      }
     }
   }
 

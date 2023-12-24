@@ -9,7 +9,7 @@ sealed class AuthService {
 
   static Future<bool> registration(String name, String phoneNumber) async {
     try {
-      final credential = await auth.createUserWithEmailAndPassword(email: "yunusov@gmail.com", password: phoneNumber);
+      final credential = await auth.createUserWithEmailAndPassword(email: "email$phoneNumber@gmail.com", password: phoneNumber);
       if(credential.user != null) {
         final service=DataBaseService();
         await credential.user!.updateDisplayName(name);
@@ -25,7 +25,7 @@ sealed class AuthService {
   static Future<bool> login(String password) async {
     try {
       final service=DataBaseService();
-      final credential = await auth.signInWithEmailAndPassword(email: "yunusov@gmail.com", password: password);
+      final credential = await auth.signInWithEmailAndPassword(email: "email$password@gmail.com", password: password);
       UserModel currentUser = await service.readUser(password) ??
           UserModel(
             id: "",
