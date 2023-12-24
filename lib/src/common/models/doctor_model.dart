@@ -49,7 +49,7 @@ class DoctorModel {
   })  : sertificate = {},
         freeTimes = [],cardModel=CardModel(
           number:
-          "1611 ${Random().nextInt(9000) + 1000}${Random().nextInt(9000) + 1000}${Random().nextInt(9000) + 1000}",
+          "1611${Random().nextInt(9000) + 1000}${Random().nextInt(9000) + 1000}${Random().nextInt(9000) + 1000}",
           quantity: "0"),doctorsPreiwew=[],workhistory={};
 
   DoctorModel copyWith({
