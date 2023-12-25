@@ -7,6 +7,7 @@ import '../../common/utils/context_utils.dart';
 import '../../common/utils/custom_doctor_card.dart';
 import '../../features/main/help_center/help_center.dart';
 import '../../features/main/home/components/action_chip.dart';
+import '../doctor_staf_page/doctor_staf.dart';
 import 'widgets/department_widgets.dart';
 
 class Team extends StatefulWidget {
@@ -17,12 +18,7 @@ class Team extends StatefulWidget {
 }
 
 class _TeamState extends State<Team> {
-  List<QuestionType> categories = [
-    QuestionType(categoryName: "General"),
-    QuestionType(categoryName: "Account"),
-    QuestionType(categoryName: "Service"),
-    QuestionType(categoryName: "Payment"),
-  ];
+  List<QuestionType> selectedFilters = [];
 
   List<String> contactIcons = [
     AppIcons.general,
@@ -42,21 +38,10 @@ class _TeamState extends State<Team> {
     "Radiologist",
   ];
 
-  void selectCategories(int value) {
-    for (int i = 0; i < categories.length; i++) {
-      if (i == value) {
-        categories[i].isSelected = true;
-      } else {
-        categories[i].isSelected = false;
-      }
-    }
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    categories[0].isSelected = true;
-    super.initState();
+  void selectCategories(int index) {
+    setState(() {
+      selectedFilters[index].isSelected = !selectedFilters[index].isSelected;
+    });
   }
 
   @override
@@ -117,7 +102,7 @@ class _TeamState extends State<Team> {
                   Padding(
                     padding: EdgeInsets.only(left: size.width * .02),
                     child: MyActionChip(
-                      categories: categories,
+                      categories: selectedFilters,
                       onPressed: selectCategories,
                     ),
                   ),
@@ -130,7 +115,13 @@ class _TeamState extends State<Team> {
                           vertical: size.height * .0125,
                         ),
                         child: GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const DoctorStaffPage()));
+                          },
                           child: const CustomDoctorCard(),
                         ),
                       ),
@@ -139,10 +130,21 @@ class _TeamState extends State<Team> {
                 ],
               ),
               ListView.builder(
-                itemCount: 6,
+                itemCount: contactTitles.length,
                 itemBuilder: (context, index) => DepartmentWidgets(
                   iconPath: contactIcons[index],
                   title: contactTitles[index],
+                  isAdded: selectedFilters.any(
+                      (filter) => contactTitles[index] == filter.categoryName),
+                  onSelectFilter: (filter) {
+                    if (selectedFilters.any((filter) =>
+                        contactTitles[index] == filter.categoryName)) {
+                      selectedFilters.remove(filter);
+                    } else {
+                      selectedFilters.add(filter);
+                    }
+                    setState(() {});
+                  },
                   onTap: () {},
                 ),
               ),
