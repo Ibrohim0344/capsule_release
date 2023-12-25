@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../common/constants/app_colors.dart';
 import '../../../../common/constants/app_images.dart';
-import '../../../../common/services/storage/storage.dart';
 import '../../../../common/utils/context_utils.dart';
 
 class CustomPersonalCard extends StatelessWidget {

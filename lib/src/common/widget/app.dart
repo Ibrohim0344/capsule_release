@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 import '../../features/splash_page/splash_page.dart';
+import '../controller/home_provider.dart';
 import '../controller/user_controller.dart';
 import '../services/localization/app_localizations.dart';
 
@@ -14,8 +16,11 @@ class App extends StatefulWidget {
 class _App extends State<App> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => CurrentUser(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => CurrentUser()),
+        ChangeNotifierProvider(create: (context) => HomeProvider()),
+      ],
       builder: (context, _) {
         return MaterialApp(
           title: "Capsule",

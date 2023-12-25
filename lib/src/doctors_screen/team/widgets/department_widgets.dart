@@ -75,7 +75,7 @@ class _DepartmentWidgetsState extends State<DepartmentWidgets> {
                 isAdded = !isAdded;
               });
             },
-          ) : SizedBox.shrink(),
+          ) : const SizedBox.shrink(),
         ),
       ),
     );

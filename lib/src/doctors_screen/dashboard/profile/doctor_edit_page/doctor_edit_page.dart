@@ -3,8 +3,6 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../../common/constants/app_colors.dart';
 import '../../../../common/constants/app_icons.dart';
-import '../../../../common/models/user_model.dart';
-import '../../../../common/services/storage/storage.dart';
 import '../../../../features/main/user_profile/widgets/custom_app_bar.dart';
 import '../../../../features/main/user_profile/widgets/custom_button.dart';
 import '../../../../features/main/user_profile/widgets/custom_text_field.dart';

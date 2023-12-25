@@ -268,8 +268,13 @@ class Details extends StatelessWidget {
                         appointment.status == "Completed"
                     ? null
                     : () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ChatScreen(),));
-                },
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ChatScreen(),
+                          ),
+                        );
+                      },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
                   child: Row(
