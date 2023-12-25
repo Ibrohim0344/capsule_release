@@ -2,7 +2,10 @@ import 'dart:io';
 import 'dart:math';
 
 // ignore: depend_on_referenced_packages
-import 'user_model.dart';
+
+import 'doctor_price.dart';
+import 'doctor_promocode.dart';
+import 'doctor_reviews.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'card_model.dart';
@@ -24,12 +27,16 @@ class DoctorModel {
   List<DateTime> freeTimes;
   final String gostId;
   final CardModel cardModel;
-  List<UserModel> doctorsPreiwew;
+  int doctorsPreiwew;
   final double ratingStar;
   final int workExp;
   final Map<String, DateTime> workhistory;
   final String price;
   final Status doctorStatus;
+  final List<DoctorModel> favoriteDoctors;
+  final List<DoctorReviews> doctorReviews;
+  final DoctorPrice doctorPrice;
+  final DoctorPromoCode doctorPromoCode;
 
   DoctorModel({
     required this.id,
@@ -39,18 +46,25 @@ class DoctorModel {
     required this.phoneNumber,
     required this.password,
     this.gender = "",
+    this.doctorsPreiwew = 0,
     this.age = 0,
     this.information = "",
-    this.gostId="",
-    this.ratingStar=0,
-    this.price="0",
-    this.workExp=0,
-    this.doctorStatus=Status.active,
+    this.gostId = "",
+    this.ratingStar = 0,
+    this.price = "0",
+    this.workExp = 0,
+    this.doctorStatus = Status.active,
   })  : sertificate = {},
-        freeTimes = [],cardModel=CardModel(
-          number:
-          "1611${Random().nextInt(9000) + 1000}${Random().nextInt(9000) + 1000}${Random().nextInt(9000) + 1000}",
-          quantity: "0"),doctorsPreiwew=[],workhistory={};
+        freeTimes = [],
+        cardModel = CardModel(
+            number:
+                "1611${Random().nextInt(9000) + 1000}${Random().nextInt(9000) + 1000}${Random().nextInt(9000) + 1000}",
+            quantity: "0"),
+        workhistory = {},
+        favoriteDoctors = [],
+        doctorReviews = [],
+        doctorPrice = DoctorPrice(),
+        doctorPromoCode = DoctorPromoCode();
 
   DoctorModel copyWith({
     String? id,
@@ -72,9 +86,9 @@ class DoctorModel {
         email: email ?? this.email,
         phoneNumber: phoneNumber ?? this.phoneNumber,
         password: password ?? this.password,
-        gender: gender ??  this.gender,
+        gender: gender ?? this.gender,
         age: age ?? this.age,
-        information: information ??  this.information,
+        information: information ?? this.information,
       );
 
   @override
@@ -117,8 +131,7 @@ class DoctorModel {
   }
 }
 
-
-enum Status{
+enum Status {
   active,
   noActive,
 }
