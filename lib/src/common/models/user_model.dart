@@ -5,19 +5,22 @@ import 'card_model.dart';
 
 import 'package:json_annotation/json_annotation.dart';
 
+import 'doctor_model.dart';
+
 part 'user_model.g.dart';
 
 @JsonSerializable()
 class UserModel {
   final String id;
-   String name;
-   String lastName;
+  String name;
+  String lastName;
   late final DateTime dateOfBirth;
   final String image;
   final String phoneNumber;
   final String email;
   final String password;
   final String token;
+  final List<DoctorModel> favoritesDoctors;
 
   // final UserInformation userInformation;
   final CardModel cardModel;
@@ -28,12 +31,13 @@ class UserModel {
     this.name = "",
     this.email = "",
     this.password = "",
-    this.image="",
+    this.image = "",
     required this.token,
     required this.phoneNumber,
     final DateTime? dateOfBirth,
     final CardModel? cardModel,
     final List<Booking>? booking,
+    final List<DoctorModel>? favoritesDoctors,
     this.lastName = "",
   })  : dateOfBirth = dateOfBirth ?? DateTime.now(),
         // userInformation = UserInformation(),
@@ -42,7 +46,8 @@ class UserModel {
                 number:
                     "0510 ${Random().nextInt(9000) + 1000} ${Random().nextInt(9000) + 1000} ${Random().nextInt(9000) + 1000}",
                 quantity: "0"),
-        booking = booking ?? [];
+        booking = booking ?? [],
+        favoritesDoctors = favoritesDoctors ?? [];
 
   factory UserModel.fromJson(Map<String, Object?> json) =>
       _$UserModelFromJson(json);

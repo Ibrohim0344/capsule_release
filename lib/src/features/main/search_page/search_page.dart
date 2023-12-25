@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/constants/app_colors.dart';
+import '../../../common/utils/category_models.dart';
 import '../../../common/utils/custom_search_field.dart';
 import '../home/components/action_chip.dart';
-
-class DoctorType {
-  final String categoryName;
-  bool isSelected;
-
-  DoctorType({
-    required this.categoryName,
-    this.isSelected = false,
-  });
-}
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -32,15 +23,6 @@ class _SearchPageState extends State<SearchPage> {
     DoctorType(categoryName: "Pediatric"),
   ];
 
-  void selectCategories(int value) {
-    for (int i = 0; i < categories.length; i++) {
-      i == value
-          ? categories[i].isSelected = true
-          : categories[i].isSelected = false;
-    }
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -58,10 +40,7 @@ class _SearchPageState extends State<SearchPage> {
           Center(
             child: Padding(
               padding: EdgeInsets.only(left: size.width * .02),
-              child: MyActionChip(
-                categories: categories,
-                onPressed: selectCategories,
-              ),
+              child: MyActionChip(categories: categories),
             ),
           ),
         ],

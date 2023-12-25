@@ -1,22 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/constants/app_colors.dart';
-import '../../../common/constants/app_icons.dart';
 import '../../../common/utils/custom_search_field.dart';
 import '../home/components/action_chip.dart';
 import 'components/contact_button.dart';
 import 'components/custom_expansion_tile.dart';
-import 'customer_service/customer_service_screen.dart';
-
-class QuestionType {
-  final String categoryName;
-  bool isSelected;
-
-  QuestionType({
-    required this.categoryName,
-    this.isSelected = false,
-  });
-}
+import 'mixin/help_center_mixin.dart';
 
 class HelpCenterPage extends StatefulWidget {
   const HelpCenterPage({super.key});
@@ -25,69 +14,7 @@ class HelpCenterPage extends StatefulWidget {
   State<HelpCenterPage> createState() => _HelpCenterPageState();
 }
 
-class _HelpCenterPageState extends State<HelpCenterPage> {
-  List<QuestionType> categories = [
-    QuestionType(categoryName: "General"),
-    QuestionType(categoryName: "Account"),
-    QuestionType(categoryName: "Service"),
-    QuestionType(categoryName: "Payment"),
-  ];
-
-  List<String> contactIcons = [
-    AppIcons.service,
-    AppIcons.whatsapp,
-    AppIcons.website,
-    AppIcons.facebook,
-    AppIcons.twitter,
-    AppIcons.instagram,
-  ];
-
-  List<String> contactTitles = [
-    "Customer Service",
-    "WhatsApp",
-    "Website",
-    "Facebook",
-    "Twitter",
-    "Instagram",
-  ];
-
-  List<String> questions = [
-    "What is Capsule?",
-    "How to use Capsule?",
-    "How do I cancel an appointment?",
-    "How do I save the recording?",
-    "How do I exit the app?",
-  ];
-
-  List<String> answers = [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-  ];
-
-  void selectCategories(int value) {
-    for (int i = 0; i < categories.length; i++) {
-      if (i == value) {
-        categories[i].isSelected = true;
-      } else {
-        categories[i].isSelected = false;
-      }
-    }
-    setState(() {});
-  }
-
-  void onTap() => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const CustomerServiceScreen(
-            chatPath: '',
-          ),
-        ),
-      );
-
-  @override
-  void initState() {
-    categories[0].isSelected = true;
-    super.initState();
-  }
-
+class _HelpCenterPageState extends State<HelpCenterPage> with HelpCenterMixin {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -117,12 +44,8 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
             ),
             unselectedLabelColor: AppColors.lightGray,
             tabs: const [
-              Tab(
-                text: "FAQ",
-              ),
-              Tab(
-                text: "Contact us",
-              ),
+              Tab(text: "FAQ"),
+              Tab(text: "Contact us"),
             ],
           ),
         ),
@@ -134,10 +57,7 @@ class _HelpCenterPageState extends State<HelpCenterPage> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: size.width * .02),
-                    child: MyActionChip(
-                      categories: categories,
-                      onPressed: selectCategories,
-                    ),
+                    child: MyActionChip(categories: categories),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(

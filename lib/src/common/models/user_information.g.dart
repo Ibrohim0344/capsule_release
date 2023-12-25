@@ -6,7 +6,7 @@ part of 'user_information.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-UserInformation _$UserInformationFromJson(Map<String, Object?> json) =>
+UserInformation _$UserInformationFromJson(Map<String, dynamic> json) =>
     UserInformation(
       height: (json['height'] as num?)?.toDouble() ?? 0,
       weight: (json['weight'] as num?)?.toDouble() ?? 0,
@@ -22,8 +22,8 @@ UserInformation _$UserInformationFromJson(Map<String, Object?> json) =>
           (120, 80),
     );
 
-Map<String, Object?> _$UserInformationToJson(UserInformation instance) =>
-    <String, Object?>{
+Map<String, dynamic> _$UserInformationToJson(UserInformation instance) =>
+    <String, dynamic>{
       'height': instance.height,
       'weight': instance.weight,
       'disease': instance.disease,
@@ -38,4 +38,4 @@ $Rec _$recordConvert<$Rec>(
   Object? value,
   $Rec Function(Map) convert,
 ) =>
-    convert(value as Map<String, Object?>);
+    convert(value as Map<String, dynamic>);

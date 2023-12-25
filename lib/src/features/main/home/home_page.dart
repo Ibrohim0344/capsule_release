@@ -10,23 +10,11 @@ import '../../../common/utils/context_utils.dart';
 import '../../../common/utils/custom_doctor_card.dart';
 import '../../../common/utils/custom_search_field.dart';
 import '../doctors_profile/doctors_profile.dart';
-import '../help_center/help_center.dart';
-import '../notifications/notifications_page.dart';
-import '../search_page/search_page.dart';
 import 'components/action_chip.dart';
 import 'components/ads_card.dart';
 import 'components/carousel_widgets.dart';
 import 'components/category_widget.dart';
-
-class DoctorType {
-  final String categoryName;
-  bool isSelected;
-
-  DoctorType({
-    required this.categoryName,
-    this.isSelected = false,
-  });
-}
+import 'mixin/home_mixin.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,52 +23,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  List<DoctorType> categories = [
-    DoctorType(categoryName: "All"),
-    DoctorType(categoryName: "General"),
-    DoctorType(categoryName: "Dentist"),
-    DoctorType(categoryName: "Nutritionist"),
-    DoctorType(categoryName: "Ophthalmologist"),
-    DoctorType(categoryName: "Neurologist"),
-    DoctorType(categoryName: "Pediatric"),
-  ];
-
-  void selectCategories(int value) {
-    for (int i = 0; i < categories.length; i++) {
-      i == value
-          ? categories[i].isSelected = true
-          : categories[i].isSelected = false;
-    }
-    setState(() {});
-  }
-
-  int activeIndex = 0;
-
-  void openNotificationPage() => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const NotificationPage(),
-        ),
-      );
-
-  void openSupportPage() => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const HelpCenterPage(),
-        ),
-      );
-
-  void openSearchPage() => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => const SearchPage(),
-        ),
-      );
-
-  @override
-  void initState() {
-    $currentUser.getUser();
-    super.initState();
-  }
-
+class _HomePageState extends State<HomePage> with HomeMixin {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -261,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: openTopDoctors,
                   child: Text(
                     "See All",
                     style: context.textTheme.titleMedium?.copyWith(
@@ -276,10 +219,7 @@ class _HomePageState extends State<HomePage> {
           Center(
             child: Padding(
               padding: EdgeInsets.only(left: size.width * .02),
-              child: MyActionChip(
-                categories: categories,
-                onPressed: selectCategories,
-              ),
+              child: MyActionChip(categories: categories),
             ),
           ),
           Column(

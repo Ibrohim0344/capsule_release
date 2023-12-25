@@ -37,10 +37,16 @@ class _EditPageState extends State<EditPage> with EditPageMixin {
                     name: firstNameController.text,
                     lastName: lastNameController.text,
                   );
+                  print("===================================");
+                  print(firstNameController.text);
+                  print("===================================");
+                  print(lastNameController.text);
+                  print("===================================");
                   $currentUser.updateUser(
                     updatedUser,
                     $currentUser.currentUser!.id,
                   );
+                  print(updatedUser);
                   $currentUser.getUser();
                   Navigator.pop(context);
                 },
@@ -72,9 +78,7 @@ class _EditPageState extends State<EditPage> with EditPageMixin {
                       child: GestureDetector(
                         onTap: () => showModalBottomSheet(
                           context: context,
-                          builder: (
-                            BuildContext context,
-                          ) {
+                          builder: (BuildContext context) {
                             return DecoratedBox(
                               decoration: const BoxDecoration(
                                 color: Colors.white,
@@ -143,56 +147,45 @@ class _EditPageState extends State<EditPage> with EditPageMixin {
                 height: 20,
               ),
               CustomTextField(
-                hintText: $currentUser.currentUser!.name,
-                onTap: () {
-                  firstNameController.text = $currentUser.currentUser!.name;
-                },
+                // hintText: $currentUser.currentUser!.name,
+                // onTap: () {
+                //   firstNameController.text = $currentUser.currentUser!.name;
+                // },
                 controller: firstNameController,
                 textInputAction: TextInputAction.next,
               ),
-              const SizedBox(
-                height: 20.0,
-              ),
+              const SizedBox(height: 20.0),
               CustomTextField(
-                onTap: () {
-                  lastNameController.text = $currentUser.currentUser!.lastName;
-                },
-                hintText: $currentUser.currentUser!.lastName,
+                // onTap: () {
+                //   lastNameController.text = $currentUser.currentUser!.lastName;
+                // },
+                // hintText: $currentUser.currentUser!.lastName,
                 textInputAction: TextInputAction.next,
                 controller: lastNameController,
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               CustomTextField(
-                  controller: birthdayController,
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.done,
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.all(13.0),
-                    child: SvgPicture.asset(
-                      AppIcons.birthday,
-                    ),
-                  ),
-                  hintText: "Your Birthday",
-                  readOnly: true,
-                  onTap: dialog),
-              const SizedBox(
-                height: 20,
+                controller: birthdayController,
+                keyboardType: TextInputType.number,
+                textInputAction: TextInputAction.done,
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.all(13.0),
+                  child: SvgPicture.asset(AppIcons.birthday),
+                ),
+                hintText: "Your Birthday",
+                readOnly: true,
+                onTap: dialog,
               ),
+              const SizedBox(height: 20),
               CustomTextField(
                 readOnly: true,
                 hintText: $currentUser.currentUser!.email,
                 suffixIcon: Padding(
                   padding: const EdgeInsets.all(13.0),
-                  child: SvgPicture.asset(
-                    AppIcons.email,
-                  ),
+                  child: SvgPicture.asset(AppIcons.email),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
+              const SizedBox(height: 20),
               CustomTextField(
                 readOnly: true,
                 hintText: $currentUser.currentUser!.phoneNumber,

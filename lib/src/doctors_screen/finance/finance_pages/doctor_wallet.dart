@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/constants/app_colors.dart';
+import '../../../common/utils/category_models.dart';
 import '../../../common/utils/context_utils.dart';
 import '../../../common/utils/custom_shadow.dart';
 import '../../../features/main/doctors_profile/widgets/custom_personal_card.dart';
 import '../../../features/main/doctors_profile/widgets/main_text.dart';
-import '../../../features/main/help_center/help_center.dart';
 import '../../../features/main/home/components/action_chip.dart';
 import '../widgets/simple_appbar.dart';
 
@@ -61,10 +61,7 @@ class _DoctorWalletState extends State<DoctorWallet> {
           ),
           Padding(
             padding: EdgeInsets.only(left: size.width * .02),
-            child: MyActionChip(
-              categories: historySort,
-              onPressed: (p0) {},
-            ),
+            child: MyActionChip(categories: historySort),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(

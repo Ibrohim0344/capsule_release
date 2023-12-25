@@ -89,8 +89,8 @@ class _DashboardPageState extends State<DashboardPage> {
               child: const CustomSearchField(isEnabled: false),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
+          const Padding(
+            padding: EdgeInsets.symmetric(
               horizontal: 15.0,
               vertical: 20,
             ),

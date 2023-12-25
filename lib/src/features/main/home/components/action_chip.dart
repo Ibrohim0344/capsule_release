@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../common/constants/app_colors.dart';
-import '../controller/home_provider.dart';
+import '../../../../common/controller/home_provider.dart';
 
 class MyActionChip extends StatelessWidget {
   const MyActionChip({
     required this.categories,
-    required this.onPressed,
     super.key,
   });
 
   final List categories;
-  final void Function(int) onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +42,9 @@ class MyActionChip extends StatelessWidget {
                         : AppColors.black,
                   ),
                 ),
-                onPressed: () =>
-                    context.read<HomeProvider>().selectCategories(index),
+                onPressed: () => context
+                    .read<HomeProvider>()
+                    .selectCategories(categories, index),
               ),
             ),
           ),
