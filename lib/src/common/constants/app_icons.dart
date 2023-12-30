@@ -31,6 +31,7 @@ abstract class AppIcons {
   static const twitter = "assets/icons/ic_twitter.svg";
   static const instagram = "assets/icons/ic_instagram.svg";
   static const expTrailing = "assets/icons/ic_exp_trailing.svg";
+  static const favorite2 = "assets/images/ic_like_fill.svg";
 
 
   //ProfilePage

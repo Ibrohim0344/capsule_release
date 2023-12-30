@@ -4,18 +4,23 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../common/constants/app_colors.dart';
 import '../../../common/utils/context_utils.dart';
 import '../../../common/utils/custom_shadow.dart';
+import '../../../features/main/help_center/help_center.dart';
 
 class DepartmentWidgets extends StatefulWidget {
   final String iconPath;
   final String title;
   final bool? isTrialing;
+  final bool isAdded;
 
   final void Function() onTap;
+  final void Function(QuestionType) onSelectFilter;
 
   const DepartmentWidgets({
     required this.iconPath,
     required this.title,
+    required this.isAdded,
     required this.onTap,
+    required this.onSelectFilter,
     this.isTrialing = true,
     super.key,
   });
@@ -25,8 +30,6 @@ class DepartmentWidgets extends StatefulWidget {
 }
 
 class _DepartmentWidgetsState extends State<DepartmentWidgets> {
-  bool isAdded = true;
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -56,26 +59,36 @@ class _DepartmentWidgetsState extends State<DepartmentWidgets> {
             height: 24,
           ),
           title: Text(widget.title),
-          trailing: widget.isTrialing! ? FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: isAdded ? AppColors.mainColor : AppColors.white,
-              side: BorderSide(
-                color: isAdded ? AppColors.white : AppColors.mainColor,
-              ),
-            ),
-            child: Text(
-              isAdded ? "Add" : "Added",
-              style: context.textTheme.bodyMedium?.copyWith(
-                color: isAdded ? AppColors.white : AppColors.mainColor,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-            onPressed: () {
-              setState(() {
-                isAdded = !isAdded;
-              });
-            },
-          ) : const SizedBox.shrink(),
+          trailing: widget.isTrialing!
+              ? FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor:
+                        widget.isAdded ? AppColors.white : AppColors.mainColor,
+                    side: BorderSide(
+                      color: widget.isAdded
+                          ? AppColors.mainColor
+                          : AppColors.white,
+                    ),
+                  ),
+                  child: Text(
+                    widget.isAdded ? "Remove" : "Add",
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: widget.isAdded
+                          ? AppColors.mainColor
+                          : AppColors.white,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  onPressed: () {
+                    widget.onSelectFilter(
+                      QuestionType(
+                        categoryName: widget.title,
+                        isSelected: !widget.isAdded,
+                      ),
+                    );
+                  },
+                )
+              : const SizedBox.shrink(),
         ),
       ),
     );

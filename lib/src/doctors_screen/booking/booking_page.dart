@@ -128,11 +128,12 @@ class _BookingPageState extends State<BookingPage> {
                   isTrialing: false,
                   iconPath: financeIcons[index],
                   title: financeTitles[index],
+                  onSelectFilter: (filter) {},
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => navigators[index],
                     ),
-                  ),
+                  ), isAdded: false,
                 ),
               ),
             ],
