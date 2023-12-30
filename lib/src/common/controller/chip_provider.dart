@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HomeProvider extends ChangeNotifier {
+class ChipProvider extends ChangeNotifier {
   void selectCategories(List categories, int value) {
     for (int i = 0; i < categories.length; i++) {
       i == value

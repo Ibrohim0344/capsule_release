@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../common/constants/app_colors.dart';
-import '../../../../common/controller/home_provider.dart';
+import '../../../../common/controller/chip_provider.dart';
 
 class MyActionChip extends StatelessWidget {
   const MyActionChip({
@@ -43,7 +43,7 @@ class MyActionChip extends StatelessWidget {
                   ),
                 ),
                 onPressed: () => context
-                    .read<HomeProvider>()
+                    .read<ChipProvider>()
                     .selectCategories(categories, index),
               ),
             ),

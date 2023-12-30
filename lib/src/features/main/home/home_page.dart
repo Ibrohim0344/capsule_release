@@ -106,9 +106,8 @@ class _HomePageState extends State<HomePage> with HomeMixin {
                     autoPlayInterval: const Duration(seconds: 3),
                     autoPlayCurve: Curves.fastOutSlowIn,
                     pauseAutoPlayOnManualNavigate: true,
-                    onPageChanged: (index, reason) => setState(
-                      () => activeIndex = index,
-                    ),
+                    onPageChanged: (index, reason) =>
+                        setState(() => activeIndex = index),
                   ),
                 ),
                 Padding(
