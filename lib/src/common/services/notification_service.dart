@@ -28,7 +28,10 @@ class NotificationService {
 
   Future<void> generateToken() async {
     await _messaging.getToken().then(
-          (value) => fcmTocen = value,
+          (value) {
+            print("fcmToken ================= $value");
+            return fcmTocen = value;
+          },
       onError: (Object? e, StackTrace stack) async {
         await generateToken();
       },

@@ -5,7 +5,7 @@ import '../../../../common/constants/app_colors.dart';
 import '../../../../common/services/doctor_auth_service.dart';
 import '../../../../common/services/storage/storage.dart';
 import '../../../../common/utils/context_utils.dart';
-import '../../../main/main_page.dart';
+import '../../../../doctors_screen/doctors_main_page.dart';
 import '../sign_in/sign_in_page.dart';
 
 class DoctorSignUp extends StatefulWidget {
@@ -102,7 +102,7 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => const MainPage(),
+            builder: (context) => const DoctorsMainPage(),
           ),
           (route) => false,
         );
@@ -225,8 +225,7 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
                     ),
                   ),
                 ),
-                SizedBox(height: size.height * 0.02),
-                SizedBox(height: size.height * 0.02),
+                SizedBox(height: size.height * 0.04),
                 TextFormField(
                   onTap: onTap,
                   validator: validatePhone,
@@ -287,65 +286,66 @@ class _DoctorSignUpState extends State<DoctorSignUp> {
                 ),
                 SizedBox(height: size.height * 0.01),
                 ValueListenableBuilder(
-                    valueListenable: lock,
-                    builder: (context, value, child) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom,
-                        ),
-                        child: TextFormField(
-                          onTap: () {
-                            focusNodePhone.unfocus();
-                            focusNodeName.unfocus();
-                            focusNodeToken.unfocus();
-                            focusNodePassword.requestFocus();
-                          },
-                          validator: validatePassword,
-                          focusNode: focusNodePassword,
-                          controller: passwordEditingController,
-                          onTapOutside: (event) => focusNodePassword.unfocus(),
-                          obscuringCharacter: "•",
-                          obscureText: lock.value,
-                          keyboardType: TextInputType.visiblePassword,
-                          decoration: InputDecoration(
-                            suffixIcon: IconButton(
-                              onPressed: () => lock.value = !lock.value,
-                              icon: Icon(
-                                lock.value
-                                    ? Icons.visibility_rounded
-                                    : Icons.visibility_off,
-                              ),
+                  valueListenable: lock,
+                  builder: (context, value, child) {
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom,
+                      ),
+                      child: TextFormField(
+                        onTap: () {
+                          focusNodePhone.unfocus();
+                          focusNodeName.unfocus();
+                          focusNodeToken.unfocus();
+                          focusNodePassword.requestFocus();
+                        },
+                        validator: validatePassword,
+                        focusNode: focusNodePassword,
+                        controller: passwordEditingController,
+                        onTapOutside: (event) => focusNodePassword.unfocus(),
+                        obscuringCharacter: "•",
+                        obscureText: lock.value,
+                        keyboardType: TextInputType.visiblePassword,
+                        decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                            onPressed: () => lock.value = !lock.value,
+                            icon: Icon(
+                              lock.value
+                                  ? Icons.visibility_rounded
+                                  : Icons.visibility_off,
                             ),
-                            hintText: "Password",
-                            filled: true,
-                            fillColor: AppColors.textField,
-                            prefixIcon: const Icon(Icons.lock,
-                                color: AppColors.black1Color),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(size.width * 0.033),
-                              ),
-                              borderSide: BorderSide.none,
+                          ),
+                          hintText: "Password",
+                          filled: true,
+                          fillColor: AppColors.textField,
+                          prefixIcon: const Icon(Icons.lock,
+                              color: AppColors.black1Color),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(size.width * 0.033),
                             ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(size.width * 0.033),
-                              ),
-                              borderSide: BorderSide.none,
+                            borderSide: BorderSide.none,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(size.width * 0.033),
                             ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(size.width * 0.033),
-                              ),
-                              borderSide: const BorderSide(
-                                color: AppColors.red,
-                                width: 1,
-                              ),
+                            borderSide: BorderSide.none,
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(size.width * 0.033),
+                            ),
+                            borderSide: const BorderSide(
+                              color: AppColors.red,
+                              width: 1,
                             ),
                           ),
                         ),
-                      );
-                    }),
+                      ),
+                    );
+                  },
+                ),
                 SizedBox(height: size.height * 0.01),
                 Column(
                   mainAxisSize: MainAxisSize.min,
