@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../common/constants/app_colors.dart';
+import '../../../common/utils/category_models.dart';
 import '../../../common/utils/context_utils.dart';
 import '../../../common/utils/custom_shadow.dart';
-import '../../../features/main/help_center/help_center.dart';
 
 class DepartmentWidgets extends StatefulWidget {
   final String iconPath;

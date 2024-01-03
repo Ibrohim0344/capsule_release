@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../common/constants/app_colors.dart';
 import '../../common/constants/app_icons.dart';
 import '../../common/constants/app_images.dart';
+import '../../common/utils/category_models.dart';
 import '../../common/utils/custom_shadow.dart';
-import '../../features/main/help_center/help_center.dart';
 import '../../features/main/home/components/action_chip.dart';
 import 'widget/buttom_widget.dart';
 
@@ -25,17 +25,6 @@ class _DoctorStaffPageState extends State<DoctorStaffPage> {
     QuestionType(categoryName: "Dentist"),
     QuestionType(categoryName: "Nutritionist"),
   ];
-
-  void selectCategories(int value) {
-    for (int i = 0; i < categories.length; i++) {
-      if (i == value) {
-        categories[i].isSelected = true;
-      } else {
-        categories[i].isSelected = false;
-      }
-    }
-    setState(() {});
-  }
 
   @override
   void initState() {
@@ -82,10 +71,7 @@ class _DoctorStaffPageState extends State<DoctorStaffPage> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: size.width * .05),
-                    child: MyActionChip(
-                      categories: categories,
-                      onPressed: selectCategories,
-                    ),
+                    child: MyActionChip(categories: categories),
                   ),
                   const SizedBox(height: 15),
                   SizedBox(

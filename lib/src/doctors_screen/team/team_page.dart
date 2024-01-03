@@ -3,9 +3,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../common/constants/app_colors.dart';
 import '../../common/constants/app_icons.dart';
+import '../../common/utils/category_models.dart';
 import '../../common/utils/context_utils.dart';
 import '../../common/utils/custom_doctor_card.dart';
-import '../../features/main/help_center/help_center.dart';
 import '../../features/main/home/components/action_chip.dart';
 import '../doctor_staf_page/doctor_staf.dart';
 import 'widgets/department_widgets.dart';
@@ -101,10 +101,7 @@ class _TeamState extends State<Team> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(left: size.width * .02),
-                    child: MyActionChip(
-                      categories: selectedFilters,
-                      onPressed: selectCategories,
-                    ),
+                    child: MyActionChip(categories: selectedFilters),
                   ),
                   Column(
                     children: List.generate(
