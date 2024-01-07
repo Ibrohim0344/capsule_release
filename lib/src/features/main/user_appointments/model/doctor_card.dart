@@ -243,11 +243,7 @@ class DoctorCard2 extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 12.0, horizontal: 10),
-              child: Image(image: appointment.doctorImage.image),
-            ),
+            Image(image: appointment.doctorImage.image),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

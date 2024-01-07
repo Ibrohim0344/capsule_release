@@ -256,64 +256,66 @@ class Details extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 35),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  elevation: 5,
-                  shadowColor: AppColors.blue,
-                  backgroundColor: const Color(0xFF246BFD),
-                  disabledBackgroundColor: Colors.indigoAccent[100],
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.only(bottom: 35, left: 15, right: 15),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            elevation: 5,
+            shadowColor: AppColors.blue,
+            backgroundColor: const Color(0xFF246BFD),
+            disabledBackgroundColor: Colors.indigoAccent[100],
+          ),
+          onPressed: appointment.status == "Cancelled" ||
+              appointment.status == "Completed"
+              ? null
+              : () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ChatScreen(),
+              ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                appointment.status == "Cancelled" ||
+                    appointment.status == "Completed"
+                    ? const Text("")
+                    : SvgPicture.asset(
+                  "${appointment.contactImage.semanticsLabel}",
                 ),
-                onPressed: appointment.status == "Cancelled" ||
-                        appointment.status == "Completed"
-                    ? null
-                    : () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ChatScreen(),
-                          ),
-                        );
-                      },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      appointment.status == "Cancelled" ||
-                              appointment.status == "Completed"
-                          ? const Text("")
-                          : SvgPicture.asset(
-                              "${appointment.contactImage.semanticsLabel}",
-                            ),
-                      appointment.status == "Cancelled" ||
-                              appointment.status == "Completed"
-                          ? Text(
-                              appointment.status,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontFamily: 'Urbanist',
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 0.20,
-                              ),
-                            )
-                          : Text(
-                              " ${appointment.contactType} (Starts at ${formatTime(appointment.date.hour)}:${formatTime(appointment.date.minute)} ${dayTime().toString()})",
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                fontFamily: 'Urbanist',
-                                fontWeight: FontWeight.w700,
-                                letterSpacing: 0.20,
-                              ),
-                            ),
-                    ],
+                appointment.status == "Cancelled" ||
+                    appointment.status == "Completed"
+                    ? Text(
+                  appointment.status,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontFamily: 'Urbanist',
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.20,
+                  ),
+                )
+                    : Text(
+                  " ${appointment.contactType} (Starts at ${formatTime(appointment.date.hour)}:${formatTime(appointment.date.minute)} ${dayTime().toString()})",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontFamily: 'Urbanist',
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.20,
                   ),
                 ),
-              )
-            ],
+              ],
+            ),
           ),
         ),
       ),
